@@ -1,9 +1,62 @@
 from django.urls import path
-from .views import MyTokenObtainPairView,ProtectedView
+from .views import upload_csv, MyTokenObtainPairView,ProtectedView,MAVView,ClassificationAPIView, DASDVView, ZCRView, GView, SSIView, VARView, TM3View, TM5View, RMSView, LOGView, WLView, AACView,Filtering,Scaling,FourierTransformView
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('login/', MyTokenObtainPairView.as_view(), name='login'),
-    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('some_protected_route/', ProtectedView.as_view(), name='protected'),  # Himoyalangan route
+     path('ok/zcr/', ZCRView.as_view(), name='zcr'),
+     path('qisish/zcr/', ZCRView.as_view(), name='zcr'),
+     path('yoyish/zcr/', ZCRView.as_view(), name='zcr'),
+     path('ok/mav/', MAVView.as_view(), name='mav'),
+     path('qisish/mav/', MAVView.as_view(), name='mav'),
+     path('yoyish/mav/', MAVView.as_view(), name='mav'),
+    path('ok/dasdv/', DASDVView.as_view(), name='dasdv'),
+    path('qisish/dasdv/', DASDVView.as_view(), name='dasdv'),
+    path('yoyish/dasdv/', DASDVView.as_view(), name='dasdv'),
+    path('ok/gplot/', GView.as_view(), name='g'),
+    path('qisish/gplot/', GView.as_view(), name='g'),
+    path('yoyish/gplot/', GView.as_view(), name='g'),
+    path('ok/ssi/', SSIView.as_view(), name='ssi'),
+    path('qisish/ssi/', SSIView.as_view(), name='ssi'),
+    path('yoyish/ssi/', SSIView.as_view(), name='ssi'),
+    path('ok/var/', VARView.as_view(), name='var'),
+    path('qisish/var/', VARView.as_view(), name='var'),
+    path('yoyish/var/', VARView.as_view(), name='var'),
+    path('ok/tm3/', TM3View.as_view(), name='tm3'),
+    path('qisish/tm3/', TM3View.as_view(), name='tm3'),
+    path('yoyish/tm3/', TM3View.as_view(), name='tm3'),
+    path('ok/tm5/', TM5View.as_view(), name='tm5'),
+    path('qisish/tm5/', TM5View.as_view(), name='tm5'),
+    path('yoyish/tm5/', TM5View.as_view(), name='tm5'),
+    path('ok/rms/', RMSView.as_view(), name='rms'),
+    path('qisish/rms/', RMSView.as_view(), name='rms'),
+    path('yoyish/rms/', RMSView.as_view(), name='rms'),
+    path('ok/log/', LOGView.as_view(), name='log'),
+    path('qisish/log/', LOGView.as_view(), name='log'),
+    path('yoyish/log/', LOGView.as_view(), name='log'),
+    path('ok/wl/', WLView.as_view(), name='wl'),
+    path('qisish/wl/', WLView.as_view(), name='wl'),
+    path('yoyish/wl/', WLView.as_view(), name='wl'),
+    path('ok/aac/', AACView.as_view(), name='aac'),
+    path('qisish/aac/', AACView.as_view(), name='aac'),
+    path('yoyish/aac/', AACView.as_view(), name='aac'),
+    path('ok/filtering/',Filtering.as_view(), name='filtering'),
+    path('qisish/filtering/',Filtering.as_view(), name='filtering'),
+    path('yoyish/filtering/',Filtering.as_view(), name='filtering'),
+    path('ok/scaling/',Scaling.as_view(), name='process_signal'),
+    path('qisish/scaling/',Scaling.as_view(), name='process_signal'),
+    path('yoyish/scaling/',Scaling.as_view(), name='process_signal'),
+    path('yoyish/scaling/',Scaling.as_view(), name='process_signal'),
+    path('ok/Fourier/',FourierTransformView.as_view(), name='Fourier'),
+    path('yoyish/Fourier/',FourierTransformView.as_view(), name='Fourier'),
+    path('qisish/Fourier/',FourierTransformView.as_view(), name='Fourier'),
+    path('classification/',ClassificationAPIView.as_view(), name='classification-api'),
+     path('upload-csv/', upload_csv, name='upload_csv'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
