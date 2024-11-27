@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 import os
 from environs import Env
 env=Env()
 env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -27,9 +27,12 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG",default=False)
-
-ALLOWED_HOSTS = ['.herokuapp.com','127.0.0.1']
-
+ENVIRONMENT = env.str('ENVIRONMENT', default='development')
+ALLOWED_HOSTS = []
+# INTERNAL_IPS=(
+#     '127.0.0.1',
+#     'localhost:8000'
+# )
 
 # Application definition
 
@@ -100,12 +103,26 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
-    'default': env.dj_db_url("DATABASE_URL")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
+# # PostgreSQL Database Setup for Production or Local PostgreSQL
+# DATABASE_URL = env.str('DATABASE_URL', None)
+# POSTGRES_LOCALLY = env.bool('POSTGRES_LOCALLY', default=False)
 
+# if ENVIRONMENT == 'production' or POSTGRES_LOCALLY:
+#     if DATABASE_URL:
+#         DATABASES['default'] = dj_database_url.parse(
+#             DATABASE_URL,
+#             conn_max_age=600,  # Optimize database connection pooling
+#             ssl_require=True if ENVIRONMENT == 'production' else False
+#         )
+#     else:
+#         raise ValueError("DATABASE_URL must be set for production or local PostgreSQL.")
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
